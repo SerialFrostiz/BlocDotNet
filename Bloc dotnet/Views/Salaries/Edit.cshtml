@@ -1,0 +1,60 @@
+﻿@using Bloc_dotnet.Models.ViewModels;
+@model SalarieVM;
+
+@{
+    ViewData["Title"] = "Editer " + Model.Nom;
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <h2>Editer @Model.Nom</h2>
+        <br />
+        <form asp-action="Edit" enctype="multipart/form-data" asp-route-id="@Model.IdSalarie">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="IdSalarie" class="form-control" hidden />
+                <span asp-validation-for="IdSalarie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nom" class="control-label"></label>
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prenom" class="control-label"></label>
+                <input asp-for="Prenom" class="form-control" />
+                <span asp-validation-for="Prenom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fixe" class="control-label"></label>
+                <input asp-for="Fixe" class="form-control" />
+                <span asp-validation-for="Fixe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Portable" class="control-label"></label>
+                <input asp-for="Portable" class="form-control" />
+                <span asp-validation-for="Portable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdService" class="label-control"></label>
+                <select multiple asp-for="IdService" class="form-control" asp-items="@ViewBag.Services" />
+                <span asp-validation-for="IdService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdSite" class="control-label"></label>
+                <select multiple asp-for="IdSite" class="form-select" asp-items="@ViewBag.Sites" />
+                <span asp-validation-for="IdSite" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <button class="btn btn-outline-success" type="submit">Editer</button>
+                <a class="btn btn-outline-danger float-end" asp-action="Index">Retourner à la liste des salariés</a>
+            </div>
+        </form>
+    </div>
+</div>

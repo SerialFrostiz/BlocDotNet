@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Salarie>;
+@{
+    ViewData["Title"] = "Liste des salariés";
+}
+
+<div class="row">
+    <div class="col-md-10 offset-1">
+        <h2>Liste des Salariés</h2>
+        <hr />
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdSalarie)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nom)</th>
+                    <th>@Html.DisplayNameFor(model => model.Prenom)</th>
+                    <th>@Html.DisplayNameFor(model => model.Service)</th>
+                    <th>@Html.DisplayNameFor(model => model.Site)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var salarie in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@salarie.IdSalarie</td>
+                        <td class="align-middle">@salarie.Nom</td>
+                        <td class="align-middle">@salarie.Prenom</td>
+                        <td class="align-middle"><a asp-controller="Services" asp-action="Details" asp-route-id="@salarie.Service.IdService">@salarie.Service.Nom</a></td>
+                        <td class="align-middle"><a asp-controller="Sites" asp-action="Details" asp-route-id="@salarie.Site.IdSite">@salarie.Site.Nom</a></td>
+                        <td class="align-middle">
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@salarie.IdSalarie">Détails</a>
+                            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@salarie.IdSalarie">Editer</a>
+                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@salarie.IdSalarie">Supprimer</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a class="btn btn-outline-success float-end" asp-action="Create">Ajouter un salarié</a>
+    </div>
+</div>
+
+
+
+

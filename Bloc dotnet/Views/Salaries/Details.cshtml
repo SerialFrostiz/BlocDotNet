@@ -1,0 +1,23 @@
+﻿@model Salarie
+
+@{
+    ViewData["Title"] = "Détails de " + Model.Nom + " " + Model.Prenom;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">Détails de @Model.Nom</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Nom) : </b>@Model.Nom</p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Prenom) : </b>@Model.Prenom</p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Fixe) : </b>@Model.Fixe</p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Portable) : </b>@Model.Portable</p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</p></li>
+            <li class="list-group-item"><a asp-controller="Services" asp-action="Details" asp-route-id="@Model.Service.IdService"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b>@Model.Service.Nom</p></a></li>
+            <li class="list-group-item"><a asp-controller="Sites" asp-action="Details" asp-route-id="@Model.Site.IdSite"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Site) : </b>@Model.Site.Nom</p></a></li>
+            
+            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.IdSalarie"> Editer</a>
+            <a class="btn btn-outline-danger float-end" asp-action="Index">Retour à la liste des salariés</a>
+        </ul>
+    </div>
+</div>

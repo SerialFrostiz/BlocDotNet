@@ -1,0 +1,29 @@
+﻿@model Service
+
+@{
+    ViewData["Title"] = "Editer " + Model.Nom;
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <h2>Editer @Model.Nom</h2>
+        <br />
+        <form asp-action="Edit" enctype="multipart/form-data" asp-route-id="@Model.IdService">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="IdService" class="form-control" hidden />
+                <span asp-validation-for="IdService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nom" class="control-label"></label>
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <button class="btn btn-outline-success" type="submit">Editer</button>
+                <a class="btn btn-outline-danger float-end" asp-action="Index">Retourner à la liste des services</a>
+            </div>
+        </form>
+    </div>
+</div>
