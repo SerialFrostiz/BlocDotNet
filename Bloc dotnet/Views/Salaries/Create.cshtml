@@ -39,12 +39,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdService" class="form-label"></label>
-                <select multiple asp-for="IdService" class="form-select" asp-items="@ViewBag.Services"></select>
+                <select asp-for="IdService" class="form-select" asp-items="@ViewBag.Services"></select>
                 <span asp-validation-for="IdService" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdSite" class="form-label"></label>
-                <select multiple asp-for="IdSite" class="form-select" asp-items="@ViewBag.Sites"></select>
+                <select asp-for="IdSite" class="form-select" asp-items="@ViewBag.Sites"></select>
                 <span asp-validation-for="IdSite" class="text-danger"></span>
             </div>
             <br />

@@ -1,4 +1,5 @@
 ﻿using Bloc_dotnet.Models;
+using Bloc_dotnet.Models.ViewModels;
 
 namespace Bloc_dotnet.Datas
 {
@@ -9,5 +10,6 @@ namespace Bloc_dotnet.Datas
         public List<Salarie> GetSalaries();
         public Salarie UpdateSalarie(Salarie salarie);
         public bool RemoveSalarie(int idSalarie);
+        public List<Salarie> Search(SearchVM search);
     }
 }

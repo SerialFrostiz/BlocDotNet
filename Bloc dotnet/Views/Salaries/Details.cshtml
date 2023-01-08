@@ -13,8 +13,8 @@
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Fixe) : </b>@Model.Fixe</p></li>
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Portable) : </b>@Model.Portable</p></li>
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</p></li>
-            <li class="list-group-item"><a asp-controller="Services" asp-action="Details" asp-route-id="@Model.Service.IdService"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b>@Model.Service.Nom</p></a></li>
-            <li class="list-group-item"><a asp-controller="Sites" asp-action="Details" asp-route-id="@Model.Site.IdSite"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Site) : </b>@Model.Site.Nom</p></a></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b><a asp-controller="Services" asp-action="Details" asp-route-id="@Model.Service.IdService">@Model.Service.Nom</a></p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b><a asp-controller="Sites" asp-action="Details" asp-route-id="@Model.Site.IdSite">@Model.Site.Nom</a></p></li>
             
             <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.IdSalarie"> Editer</a>
             <a class="btn btn-outline-danger float-end" asp-action="Index">Retour à la liste des salariés</a>

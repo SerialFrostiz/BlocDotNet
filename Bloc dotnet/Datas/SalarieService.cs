@@ -1,4 +1,5 @@
 ﻿using Bloc_dotnet.Models;
+using Bloc_dotnet.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -60,6 +61,12 @@ namespace Bloc_dotnet.Datas
             else
             {
                 salarie.Nom = updatedSalarie.Nom;
+                salarie.Prenom = updatedSalarie.Prenom;
+                salarie.Fixe = updatedSalarie.Fixe;
+                salarie.Portable = updatedSalarie.Portable;
+                salarie.Email = updatedSalarie.Email;
+                salarie.Service = updatedSalarie.Service;
+                salarie.Site = updatedSalarie.Site;
                 _context.Salaries.Update(salarie);
                 if(_context.SaveChanges() > 0)
                 {
@@ -67,6 +74,12 @@ namespace Bloc_dotnet.Datas
                 }
                 return new Salarie();
             }
+        }
+
+        public List<Salarie> Search(SearchVM search)
+        {
+
+            return _context.Salaries.ToList();
         }
     }
 }

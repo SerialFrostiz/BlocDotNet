@@ -62,7 +62,6 @@ namespace Bloc_dotnet.Controllers
                     Service = _serviceService.GetServiceById(salarie.IdService),
                     Site = _siteService.GetSiteById(salarie.IdSite)
                 };
-                //salarie.Nom = test.Nom;
                 Salarie createdSalarie = _salarieService.AddSalarie(newSalarie);
                 if (createdSalarie != null) return View("Details", createdSalarie);
                 return RedirectToAction("Index");
@@ -100,6 +99,7 @@ namespace Bloc_dotnet.Controllers
         {
             Salarie editedSalarie = new Salarie()
             {
+                IdSalarie = salarie.IdSalarie,
                 Nom = salarie.Nom,
                 Prenom = salarie.Prenom,
                 Fixe = salarie.Fixe,
@@ -119,6 +119,35 @@ namespace Bloc_dotnet.Controllers
         {
             if (_salarieService.RemoveSalarie(id)) return RedirectToAction("Index");
             return View();
+        }
+
+        // GET: SalarieController/Search
+        public IActionResult Search()
+        {
+            List<Service> listService = new List<Service> { new Service() { IdService = 0, Nom = "Tous les services" } };
+            foreach (Service service in _serviceService.GetServices().ToList())
+            {
+                listService.Add(service);
+            }
+            ViewBag.Services = new SelectList(listService, "IdService", "Nom");
+            ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
+            return View();
+        }
+        // POST: SalarieController
+        [HttpPost]
+        public IActionResult Index(string recherche, int IdService, int IdSite)
+        {
+            
+            
+            
+            SearchVM search = new SearchVM()
+            {
+                //Recherche = recherche,
+                //Service = _serviceService.GetServiceById(salarie.IdService),
+                //Site = _siteService.GetSiteById(salarie.IdSite)
+            };
+            List<Salarie> listSalaries = _salarieService.Search(search);
+            return View(listSalaries);
         }
     }
 }
