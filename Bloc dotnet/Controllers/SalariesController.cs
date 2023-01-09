@@ -130,24 +130,38 @@ namespace Bloc_dotnet.Controllers
                 listService.Add(service);
             }
             ViewBag.Services = new SelectList(listService, "IdService", "Nom");
-            ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
+            List<Site> listSites = new List<Site> { new Site() { IdSite = 0, Nom = "Tous les sites", Ville = "" } };
+            foreach (Site site in _siteService.GetSites().ToList())
+            {
+                listSites.Add(site);
+            }
+            ViewBag.Sites = new SelectList(listSites, "IdSite", "Nom");
             return View();
         }
-        // POST: SalarieController
+        // POST: SalarieController/Index
         [HttpPost]
-        public IActionResult Index(string recherche, int IdService, int IdSite)
-        {
-            
-            
-            
-            SearchVM search = new SearchVM()
-            {
-                //Recherche = recherche,
-                //Service = _serviceService.GetServiceById(salarie.IdService),
-                //Site = _siteService.GetSiteById(salarie.IdSite)
-            };
+        public IActionResult Index(SearchVM search)
+        {          
             List<Salarie> listSalaries = _salarieService.Search(search);
             return View(listSalaries);
         }
+
+        // POST: SalarieController/Search
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Search(SearchVM search)
+        {
+            try
+            {
+               
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
