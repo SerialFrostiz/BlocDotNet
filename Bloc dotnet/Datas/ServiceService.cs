@@ -1,4 +1,5 @@
 ﻿using Bloc_dotnet.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Text;
 
@@ -39,11 +40,15 @@ namespace Bloc_dotnet.Datas
                 return false;
             }else
             {
-                _context.Services.Remove(service);
-                if (_context.SaveChanges() > 0)
+                if (_context.Salaries.Include(salarie => salarie.Service).Where(s => s.Service.IdService == idService).Count().Equals(0))
                 {
-                    return true;
-                }
+                    _context.Services.Remove(service);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }                
                 return false;
             }
             

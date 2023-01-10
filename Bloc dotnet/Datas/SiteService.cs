@@ -1,4 +1,5 @@
 ﻿using Bloc_dotnet.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 using System.Text;
@@ -38,12 +39,17 @@ namespace Bloc_dotnet.Datas
             if (site == null)
             {
                 return false;
-            }else
+            }
+            else
             {
-                _context.Sites.Remove(site);
-                if (_context.SaveChanges() > 0)
+                if (_context.Salaries.Include(salarie => salarie.Site).Where(s => s.Site.IdSite == idSite).Count().Equals(0))
                 {
-                    return true;
+                    _context.Sites.Remove(site);
+                    if (_context.SaveChanges() > 0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
                 return false;
             }

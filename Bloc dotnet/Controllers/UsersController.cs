@@ -111,7 +111,7 @@ namespace Bloc_dotnet.Controllers
         // GET : UserController/Login
         public ActionResult Login()
         {
-            if (_userService.IsUser() == false)
+            if (_userService.IsUser() == true)
             {
                 return RedirectToAction("IndexAdmin", "Salaries");
             }
@@ -132,7 +132,7 @@ namespace Bloc_dotnet.Controllers
             {                   
                 CookieOptions options = new CookieOptions();
                 options.Secure = true;
-                options.Expires = DateTime.Now.AddMinutes(1);
+                options.Expires = DateTime.Now.AddMinutes(60);
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("Role", "User", options);
                 return RedirectToAction("IndexAdmin","Salaries");
             }            

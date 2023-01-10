@@ -10,10 +10,12 @@ namespace Bloc_dotnet.Controllers
 
         private IServiceService _ServiceService;
         private IUserService _UserService;
-        public ServicesController(IServiceService ServiceService, IUserService UserService)
+        private ISalarieService _SalarieService;
+        public ServicesController(IServiceService ServiceService, IUserService UserService, ISalarieService salarieService)
         {
             _ServiceService = ServiceService;
             _UserService = UserService;
+            _SalarieService = salarieService;
         }
 
 
@@ -115,9 +117,9 @@ namespace Bloc_dotnet.Controllers
             if (_UserService.IsUser() == false)
             {
                 return RedirectToAction("Index", "Salaries");
-            }
-            if (_ServiceService.RemoveService(id)) return RedirectToAction("Index");
-            return View();
+            }        
+                if (_ServiceService.RemoveService(id)) return RedirectToAction("Index");
+                return RedirectToAction("Index");
         }
     }
 }

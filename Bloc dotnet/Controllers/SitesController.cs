@@ -10,10 +10,12 @@ namespace Bloc_dotnet.Controllers
 
         private ISiteService _siteService;
         private IUserService _userService;
-        public SitesController(ISiteService siteService, IUserService userService)
+        private ISalarieService _salarieService;
+        public SitesController(ISiteService siteService, IUserService userService, ISalarieService salarieService)
         {
             _siteService = siteService;
             _userService = userService;
+            _salarieService = salarieService;
         }
 
 
@@ -116,8 +118,14 @@ namespace Bloc_dotnet.Controllers
             {
                 return RedirectToAction("Index", "Salaries");
             }
-            if (_siteService.RemoveSite(id)) return RedirectToAction("Index");
-            return View();
+            List<Salarie> listSalarie = _salarieService.GetSalaries().ToList();
+            if(listSalarie.Where(s => s.Site.IdSite== id).Count().Equals(0))
+            {
+                if (_siteService.RemoveSite(id)) return RedirectToAction("Index");
+                return RedirectToAction("Index");
+
+            }
+            return RedirectToAction("Index");
         }
     }
 }
