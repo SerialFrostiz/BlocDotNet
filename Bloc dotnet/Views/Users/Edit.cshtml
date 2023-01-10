@@ -1,0 +1,35 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Editer " + Model.Login;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <h2>Editer @Model.Login</h2>
+        <br />
+        <form asp-action="Edit" enctype="multipart/form-data" asp-route-id="@Model.IdUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="IdUser" class="form-control" hidden />
+                <span asp-validation-for="IdUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control"/>
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input type="password" asp-for="Password" class="form-control" value="" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <button class="btn btn-outline-success" type="submit">Editer</button>
+                <a class="btn btn-outline-danger float-end" asp-action="Index">Retourner à la liste des administrateurs</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Détails de " + Model.Nom + " " + Model.Prenom;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="card">
@@ -13,9 +14,10 @@
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Fixe) : </b>@Model.Fixe</p></li>
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Portable) : </b>@Model.Portable</p></li>
             <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</p></li>
-            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b><a asp-controller="Services" asp-action="Details" asp-route-id="@Model.Service.IdService">@Model.Service.Nom</a></p></li>
-            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Site) : </b><a asp-controller="Sites" asp-action="Details" asp-route-id="@Model.Site.IdSite">@Model.Site.Nom</a></p></li>                                   
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Service) : </b><a asp-controller="Services" asp-action="DetailsAdmin" asp-route-id="@Model.Service.IdService">@Model.Service.Nom</a></p></li>
+            <li class="list-group-item"><p class="card-text"><b>@Html.DisplayNameFor(model => model.Site) : </b><a asp-controller="Sites" asp-action="DetailsAdmin" asp-route-id="@Model.Site.IdSite">@Model.Site.Nom</a></p></li>                                   
         </ul>
-        <a class="btn btn-outline-danger mt-2 float-end" asp-action="Index">Retour à la liste des salariés</a>
+        <a class="btn btn-outline-warning mt-2" asp-action="Edit" asp-route-id="@Model.IdSalarie">Editer</a></a>
+        <a class="btn btn-outline-danger float-end mt-2" asp-action="IndexAdmin">Retour à la liste des salariés</a>
     </div>
 </div>

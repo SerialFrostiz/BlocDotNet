@@ -12,16 +12,28 @@ namespace Bloc_dotnet.Controllers
         private IServiceService _serviceService;
         private ISiteService _siteService;
         private ISalarieService _salarieService;
-        public SalariesController(ISalarieService salarieService,IServiceService serviceService, ISiteService siteService)
+        private IUserService _userService;
+        public SalariesController(ISalarieService salarieService,IServiceService serviceService, ISiteService siteService, IUserService userService)
         {
             _salarieService = salarieService;
             _serviceService = serviceService;
             _siteService = siteService;
+            _userService = userService;
         }
 
 
         // GET: SalarieController
         public  IActionResult Index()
+        {
+            if (_userService.IsUser()) return RedirectToAction("IndexAdmin", "Salaries");
+            ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
+            ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
+            List<Salarie> listSalaries = _salarieService.GetSalaries();
+            return View(listSalaries);
+        }
+
+        // GET: SalarieController/IndexAdmin
+        public IActionResult IndexAdmin()
         {
             ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
             ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
@@ -31,6 +43,14 @@ namespace Bloc_dotnet.Controllers
 
         // GET: SalarieController/Details/5
         public IActionResult Details(int id)
+        {
+            Salarie salarie = _salarieService.GetSalarieById(id);
+            if (salarie == null) return View("NotFound");
+            return View(salarie);
+        }
+
+        // GET: SalarieController/DetailsAdmin/5
+        public IActionResult DetailsAdmin(int id)
         {
             Salarie salarie = _salarieService.GetSalarieById(id);
             if (salarie == null) return View("NotFound");
@@ -63,8 +83,8 @@ namespace Bloc_dotnet.Controllers
                     Site = _siteService.GetSiteById(salarie.IdSite)
                 };
                 Salarie createdSalarie = _salarieService.AddSalarie(newSalarie);
-                if (createdSalarie != null) return View("Details", createdSalarie);
-                return RedirectToAction("Index");
+                if (createdSalarie != null) return View("DetailsAdmin", createdSalarie);
+                return RedirectToAction("IndexAdmin");
             }
             catch
             {          
@@ -109,7 +129,7 @@ namespace Bloc_dotnet.Controllers
                 Site = _siteService.GetSiteById(salarie.IdSite)
             };
             Salarie updatedSalarie = _salarieService.UpdateSalarie(editedSalarie);
-            if (updatedSalarie.IdSalarie != 0 ) return View("Details", updatedSalarie);
+            if (updatedSalarie.IdSalarie != 0 ) return View("DetailsAdmin", updatedSalarie);
             return View("NotFound");
 
         }
@@ -117,7 +137,7 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Delete/5
         public IActionResult Delete(int id)
         {
-            if (_salarieService.RemoveSalarie(id)) return RedirectToAction("Index");
+            if (_salarieService.RemoveSalarie(id)) return RedirectToAction("IndexAdmin");
             return View();
         }
 
@@ -138,6 +158,25 @@ namespace Bloc_dotnet.Controllers
             ViewBag.Sites = new SelectList(listSites, "IdSite", "Nom");
             return View();
         }
+
+        // GET: SalarieController/Search
+        public IActionResult SearchAdmin()
+        {
+            List<Service> listService = new List<Service> { new Service() { IdService = 0, Nom = "Tous les services" } };
+            foreach (Service service in _serviceService.GetServices().ToList())
+            {
+                listService.Add(service);
+            }
+            ViewBag.Services = new SelectList(listService, "IdService", "Nom");
+            List<Site> listSites = new List<Site> { new Site() { IdSite = 0, Nom = "Tous les sites", Ville = "" } };
+            foreach (Site site in _siteService.GetSites().ToList())
+            {
+                listSites.Add(site);
+            }
+            ViewBag.Sites = new SelectList(listSites, "IdSite", "Nom");
+            return View();
+        }
+
         // POST: SalarieController/Index
         [HttpPost]
         public IActionResult Index(SearchVM search)
@@ -148,19 +187,10 @@ namespace Bloc_dotnet.Controllers
 
         // POST: SalarieController/Search
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Search(SearchVM search)
+        public IActionResult IndexAdmin(SearchVM search)
         {
-            try
-            {
-               
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            List<Salarie> listSalaries = _salarieService.Search(search);
+            return View(listSalaries);
         }
 
     }

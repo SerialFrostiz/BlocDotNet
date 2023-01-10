@@ -2,7 +2,8 @@
 @model SalarieVM;
 
 @{
-    ViewData["Title"] = "Editer " + Model.Nom;
+    ViewData["Title"] = "Editer " + Model.Nom + " " + Model.Prenom;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="row">
@@ -53,7 +54,7 @@
             <br />
             <div class="form-group">
                 <button class="btn btn-outline-success" type="submit">Editer</button>
-                <a class="btn btn-outline-danger float-end" asp-action="Index">Retourner à la liste des salariés</a>
+                <a class="btn btn-outline-danger float-end" asp-action="IndexAdmin">Retourner à la liste des salariés</a>
             </div>
         </form>
     </div>

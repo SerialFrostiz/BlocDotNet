@@ -1,0 +1,22 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Détails de " + Model.Login;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <h2>Détails de @Model.Login</h2>
+        <br />
+        <div class="form-group">
+            <label asp-for="Login" class="control-label"></label>
+            <input asp-for="Login" class="form-control" readonly />
+        </div>        
+        <br />
+        <div class="form-group">
+            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.IdUser">Editer</a>
+            <a class="btn btn-outline-danger float-end" asp-action="Index">Retour à la liste des administrateurs</a>
+        </div>
+    </div>
+</div>

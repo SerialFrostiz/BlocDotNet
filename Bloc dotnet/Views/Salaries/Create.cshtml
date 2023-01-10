@@ -3,7 +3,8 @@
 
 
 @{
-    ViewData["Title"] = "Ajouter un Salarié";
+    ViewData["Title"] = "Ajouter un salarié";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="row">
@@ -50,7 +51,7 @@
             <br />
             <div class="form-group">
                 <button class="btn btn-outline-success float-start" type="submit">Ajouter</button>
-                <a class="btn btn-outline-danger float-end" asp-action="Index">Retour à la liste des salariés</a>
+                <a class="btn btn-outline-danger float-end" asp-action="IndexAdmin">Retour à la liste des salariés</a>
             </div>
         </form>
        

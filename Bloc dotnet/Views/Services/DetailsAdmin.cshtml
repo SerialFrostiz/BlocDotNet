@@ -1,7 +1,8 @@
-﻿@model Site
+﻿@model Service
 
 @{
     ViewData["Title"] = "Détails de " + Model.Nom;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="row">
@@ -12,13 +13,10 @@
             <label asp-for="Nom" class="control-label"></label>
             <input asp-for="Nom" class="form-control" readonly />
         </div>
-        <div class="form-group">
-            <label asp-for="Ville" class="control-label"></label>
-            <input asp-for="Ville" class="form-control" readonly />
-        </div>
         <br />
         <div class="form-group">
-            <a class="btn btn-outline-danger float-end" asp-controller="Salaries" asp-action="Index">Retour à la liste des salariés</a>
+            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.IdService"> Editer</a>
+            <a class="btn btn-outline-danger float-end" asp-action="Index">Retour à la liste des services</a>
         </div>
     </div>
 </div>

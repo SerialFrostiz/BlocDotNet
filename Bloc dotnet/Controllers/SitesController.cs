@@ -30,6 +30,14 @@ namespace Bloc_dotnet.Controllers
             return View(site);
         }
 
+        // GET: SiteController/DetailsAdmin/5
+        public IActionResult DetailsAdmin(int id)
+        {
+            Site site = _siteService.GetSiteById(id);
+            if (site == null) return View("NotFound");
+            return View(site);
+        }
+
         // GET: SiteController/Create
         public ActionResult Create()
         {
@@ -44,7 +52,7 @@ namespace Bloc_dotnet.Controllers
             try
             {
                 Site newSite = _siteService.AddSite(site);
-                if (newSite != null) return View("Details", newSite);
+                if (newSite != null) return View("DetailsAdmin", newSite);
                 return RedirectToAction("Index");
             }
             catch
@@ -66,7 +74,7 @@ namespace Bloc_dotnet.Controllers
         public IActionResult Edit(Site site)
         {
             dynamic updatedSite = _siteService.UpdateSite(site);
-            if (updatedSite.IdSite != null ) return View("Details", updatedSite);
+            if (updatedSite.IdSite != null ) return View("DetailsAdmin", updatedSite);
             return View("NotFound");
 
         }

@@ -2,13 +2,14 @@
 
 @{
     ViewData["Title"] = "Liste des salariés";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="row">
     <div class="col-md-10 offset-1">
         <div>
             <h2>Liste des salariés</h2>
-            <a class="btn btn-outline-success" asp-action="Search">Recherche</a>
+            <a class="btn btn-outline-success" asp-action="SearchAdmin">Recherche</a>
          </div>
         <hr />
         <table class="table text-center">
@@ -29,15 +30,18 @@
                         <td class="align-middle">@salarie.IdSalarie</td>
                         <td class="align-middle">@salarie.Nom</td>
                         <td class="align-middle">@salarie.Prenom</td>
-                        <td class="align-middle"><a asp-controller="Services" asp-action="Details" asp-route-id="@salarie.Service.IdService">@salarie.Service.Nom</a></td>
-                        <td class="align-middle"><a asp-controller="Sites" asp-action="Details" asp-route-id="@salarie.Site.IdSite">@salarie.Site.Nom</a></td>
+                        <td class="align-middle"><a asp-controller="Services" asp-action="DetailsAdmin" asp-route-id="@salarie.Service.IdService">@salarie.Service.Nom</a></td>
+                        <td class="align-middle"><a asp-controller="Sites" asp-action="DetailsAdmin" asp-route-id="@salarie.Site.IdSite">@salarie.Site.Nom</a></td>
                         <td class="align-middle">
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@salarie.IdSalarie">Détails</a>
+                            <a class="btn btn-outline-info" asp-action="DetailsAdmin" asp-route-id="@salarie.IdSalarie">Détails</a>
+                            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@salarie.IdSalarie">Editer</a>
+                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@salarie.IdSalarie">Supprimer</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <a class="btn btn-outline-success float-end" asp-action="Create">Ajouter un salarié</a>
     </div>
 </div>
 

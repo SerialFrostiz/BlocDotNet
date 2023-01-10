@@ -9,15 +9,21 @@ namespace Bloc_dotnet.Controllers
     {
 
         private IServiceService _ServiceService;
-        public ServicesController(IServiceService ServiceService)
+        private IUserService _UserService;
+        public ServicesController(IServiceService ServiceService, IUserService UserService)
         {
             _ServiceService = ServiceService;
+            _UserService = UserService;
         }
 
 
         // GET: ServiceController
         public  IActionResult Index()
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             List<Service> listServices = _ServiceService.GetServices();
             return View(listServices);
         }
@@ -30,9 +36,25 @@ namespace Bloc_dotnet.Controllers
             return View(Service);
         }
 
+        // GET: ServiceController/DetailsAdmin/5
+        public IActionResult DetailsAdmin(int id)
+        {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
+            Service Service = _ServiceService.GetServiceById(id);
+            if (Service == null) return View("NotFound");            
+            return View(Service);
+        }
+
         // GET: ServiceController/Create
         public ActionResult Create()
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             return View();
         }
 
@@ -41,10 +63,14 @@ namespace Bloc_dotnet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Service Service)
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             try
             {
                 Service newService = _ServiceService.AddService(Service);
-                if (newService != null) return View("Details", newService);
+                if (newService != null) return View("DetailsAdmin", newService);
                 return RedirectToAction("Index");
             }
             catch
@@ -56,6 +82,10 @@ namespace Bloc_dotnet.Controllers
         // GET: ServiceController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             Service Service = _ServiceService.GetServiceById(id);
             if (Service != null) return View(Service);
             return View("NotFound");
@@ -65,8 +95,12 @@ namespace Bloc_dotnet.Controllers
         [HttpPost]
         public IActionResult Edit(Service Service)
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             dynamic updatedService = _ServiceService.UpdateService(Service);
-            if (updatedService.IdService != null ) return View("Details", updatedService);
+            if (updatedService.IdService != null ) return View("DetailsAdmin", updatedService);
             return View("NotFound");
 
         }
@@ -74,6 +108,10 @@ namespace Bloc_dotnet.Controllers
         // GET: ServiceController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (_UserService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             if (_ServiceService.RemoveService(id)) return RedirectToAction("Index");
             return View();
         }
