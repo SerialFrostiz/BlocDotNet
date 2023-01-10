@@ -25,6 +25,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController
         public  IActionResult Index()
         {
+            if (_userService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             if (_userService.IsUser()) return RedirectToAction("IndexAdmin", "Salaries");
             ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
             ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
@@ -35,6 +39,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/IndexAdmin
         public IActionResult IndexAdmin()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
             ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
             List<Salarie> listSalaries = _salarieService.GetSalaries();
@@ -44,6 +52,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Details/5
         public IActionResult Details(int id)
         {
+            if (_userService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             Salarie salarie = _salarieService.GetSalarieById(id);
             if (salarie == null) return View("NotFound");
             return View(salarie);
@@ -52,6 +64,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/DetailsAdmin/5
         public IActionResult DetailsAdmin(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             Salarie salarie = _salarieService.GetSalarieById(id);
             if (salarie == null) return View("NotFound");
             return View(salarie);
@@ -60,6 +76,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Create
         public IActionResult Create()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
             ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
             return View();
@@ -70,6 +90,10 @@ namespace Bloc_dotnet.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(SalarieVM salarie)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             try
             {
                 Salarie newSalarie = new Salarie()
@@ -95,6 +119,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Edit/5
         public IActionResult Edit(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             ViewBag.Services = new SelectList(_serviceService.GetServices().ToList(), "IdService", "Nom");
             ViewBag.Sites = new SelectList(_siteService.GetSites().ToList(), "IdSite", "Nom");
             Salarie salarie = _salarieService.GetSalarieById(id);
@@ -117,6 +145,10 @@ namespace Bloc_dotnet.Controllers
         [HttpPost]
         public IActionResult Edit(SalarieVM salarie)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             Salarie editedSalarie = new Salarie()
             {
                 IdSalarie = salarie.IdSalarie,
@@ -137,6 +169,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Delete/5
         public IActionResult Delete(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             if (_salarieService.RemoveSalarie(id)) return RedirectToAction("IndexAdmin");
             return View();
         }
@@ -144,6 +180,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SalarieController/Search
         public IActionResult Search()
         {
+            if (_userService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             List<Service> listService = new List<Service> { new Service() { IdService = 0, Nom = "Tous les services" } };
             foreach (Service service in _serviceService.GetServices().ToList())
             {
@@ -159,9 +199,13 @@ namespace Bloc_dotnet.Controllers
             return View();
         }
 
-        // GET: SalarieController/Search
+        // GET: SalarieController/SearchAdmin
         public IActionResult SearchAdmin()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             List<Service> listService = new List<Service> { new Service() { IdService = 0, Nom = "Tous les services" } };
             foreach (Service service in _serviceService.GetServices().ToList())
             {
@@ -180,15 +224,23 @@ namespace Bloc_dotnet.Controllers
         // POST: SalarieController/Index
         [HttpPost]
         public IActionResult Index(SearchVM search)
-        {          
+        {
+            if (_userService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             List<Salarie> listSalaries = _salarieService.Search(search);
             return View(listSalaries);
         }
 
-        // POST: SalarieController/Search
+        // POST: SalarieController/IndexAdmin
         [HttpPost]
         public IActionResult IndexAdmin(SearchVM search)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             List<Salarie> listSalaries = _salarieService.Search(search);
             return View(listSalaries);
         }

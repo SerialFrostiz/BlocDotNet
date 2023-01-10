@@ -9,15 +9,21 @@ namespace Bloc_dotnet.Controllers
     {
 
         private ISiteService _siteService;
-        public SitesController(ISiteService siteService)
+        private IUserService _userService;
+        public SitesController(ISiteService siteService, IUserService userService)
         {
             _siteService = siteService;
+            _userService = userService;
         }
 
 
         // GET: SiteController
         public  IActionResult Index()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             List<Site> listSites = _siteService.GetSites();
             return View(listSites);
         }
@@ -25,6 +31,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SiteController/Details/5
         public IActionResult Details(int id)
         {
+            if (_userService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             Site site = _siteService.GetSiteById(id);
             if (site == null) return View("NotFound");
             return View(site);
@@ -33,6 +43,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SiteController/DetailsAdmin/5
         public IActionResult DetailsAdmin(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             Site site = _siteService.GetSiteById(id);
             if (site == null) return View("NotFound");
             return View(site);
@@ -41,6 +55,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SiteController/Create
         public ActionResult Create()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             return View();
         }
 
@@ -49,6 +67,10 @@ namespace Bloc_dotnet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Site site)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             try
             {
                 Site newSite = _siteService.AddSite(site);
@@ -64,6 +86,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SiteController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             Site site = _siteService.GetSiteById(id);
             if (site != null) return View(site);
             return View("NotFound");
@@ -73,6 +99,10 @@ namespace Bloc_dotnet.Controllers
         [HttpPost]
         public IActionResult Edit(Site site)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             dynamic updatedSite = _siteService.UpdateSite(site);
             if (updatedSite.IdSite != null ) return View("DetailsAdmin", updatedSite);
             return View("NotFound");
@@ -82,6 +112,10 @@ namespace Bloc_dotnet.Controllers
         // GET: SiteController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             if (_siteService.RemoveSite(id)) return RedirectToAction("Index");
             return View();
         }

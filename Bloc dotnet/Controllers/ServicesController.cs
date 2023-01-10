@@ -31,6 +31,10 @@ namespace Bloc_dotnet.Controllers
         // GET: ServiceController/Details/5
         public IActionResult Details(int id)
         {
+            if (_UserService.IsUser() == true)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             Service Service = _ServiceService.GetServiceById(id);
             if (Service == null) return View("NotFound");
             return View(Service);

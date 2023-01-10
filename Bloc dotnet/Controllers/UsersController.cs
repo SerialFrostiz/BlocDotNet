@@ -20,6 +20,10 @@ namespace Bloc_dotnet.Controllers
         // GET: UserController
         public  IActionResult Index()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             List<User> listUsers = _userService.GetUsers();
             return View(listUsers);
         }
@@ -27,6 +31,10 @@ namespace Bloc_dotnet.Controllers
         // GET: UserController/Details/5
         public IActionResult Details(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             User user = _userService.GetUserById(id);
             if (user == null) return View("NotFound");
             return View(user);
@@ -35,6 +43,10 @@ namespace Bloc_dotnet.Controllers
         // GET: UserController/Create
         public ActionResult Create()
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             return View();
         }
 
@@ -43,6 +55,10 @@ namespace Bloc_dotnet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             try
             {
                 User newUser = _userService.AddUser(user);
@@ -58,6 +74,10 @@ namespace Bloc_dotnet.Controllers
         // GET: UserController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             User user = _userService.GetUserById(id);
             if (user != null) return View(user);
             return View("NotFound");
@@ -67,6 +87,10 @@ namespace Bloc_dotnet.Controllers
         [HttpPost]
         public IActionResult Edit(User user)
         {
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             dynamic updatedUser = _userService.UpdateUser(user);
             if (updatedUser.IdUser != null ) return View("Details", updatedUser);
             return View("NotFound");
@@ -76,7 +100,10 @@ namespace Bloc_dotnet.Controllers
         // GET: UserController/Delete/5
         public ActionResult Delete(int id)
         {
-
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("Index", "Salaries");
+            }
             if (_userService.RemoveUser(id)) return RedirectToAction("Index");
             return View();
         }
@@ -84,7 +111,10 @@ namespace Bloc_dotnet.Controllers
         // GET : UserController/Login
         public ActionResult Login()
         {
-            if (_userService.IsUser()) return RedirectToAction("IndexAdmin", "Salaries");
+            if (_userService.IsUser() == false)
+            {
+                return RedirectToAction("IndexAdmin", "Salaries");
+            }
             return View();
         }
 
